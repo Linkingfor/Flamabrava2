@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @RestController
 @RequestMapping("/api/inventarios")
 public class InventarioController {
@@ -38,8 +39,6 @@ public class InventarioController {
         Optional<Inventario> inventario = inventarioService.findById(id);
         if (inventario.isPresent()) {
             Inventario inventarioToUpdate = inventario.get();
-            inventarioToUpdate.setCantidad(inventarioDetails.getCantidad());
-            inventarioToUpdate.setMovimiento(inventarioDetails.getMovimiento());
             inventarioToUpdate.setFechaMovimiento(inventarioDetails.getFechaMovimiento());
             inventarioToUpdate.setProducto(inventarioDetails.getProducto());
             return ResponseEntity.ok(inventarioService.save(inventarioToUpdate));

@@ -3,7 +3,10 @@ package com.flamabrava.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESCATBL")
 public class Categoria implements Serializable {
 
@@ -14,11 +17,6 @@ public class Categoria implements Serializable {
 
     @Column(name = "XCATNOM", length = 100, nullable = false)
     private String nombre;
-
-    @Column(name = "XCATDSC", columnDefinition = "TEXT")
-    private String descripcion;
-
-    // Metodos Getter y Setter
 
     public Integer getId() {
         return id;
@@ -34,13 +32,5 @@ public class Categoria implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 }

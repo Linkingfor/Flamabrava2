@@ -1,34 +1,32 @@
 package com.flamabrava.model;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESRESTBL")
-public class Reservacion implements Serializable {
+public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CRESID")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "CCLIID", nullable = false)
-    private Cliente cliente;
+    @Column(name = "CCLIID")
+    private Integer clienteId;
 
     @ManyToOne
     @JoinColumn(name = "CMESID", nullable = false)
     private Mesa mesa;
 
     @Column(name = "FRESFECHA", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
 
     @Column(name = "XRESOBS", length = 400)
     private String observaciones;
-
-    // Metodos Getter y Setter
 
     public Integer getId() {
         return id;
@@ -38,12 +36,12 @@ public class Reservacion implements Serializable {
         this.id = id;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Integer getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
     }
 
     public Mesa getMesa() {

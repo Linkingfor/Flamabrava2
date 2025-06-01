@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESINVTBL")
 public class Inventario implements Serializable {
 
@@ -17,17 +20,9 @@ public class Inventario implements Serializable {
     @JoinColumn(name = "CPROID", nullable = false)
     private Producto producto;
 
-    @Column(name = "NINVCNT", nullable = false)
-    private Integer cantidad;
-
-    @Column(name = "XINVMOV", length = 50, nullable = false)
-    private String movimiento;
-
     @Column(name = "FINVFECHA")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaMovimiento = new Date();
-
-    // Metodos Getter y Setter
 
     public Integer getId() {
         return id;
@@ -43,22 +38,6 @@ public class Inventario implements Serializable {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getMovimiento() {
-        return movimiento;
-    }
-
-    public void setMovimiento(String movimiento) {
-        this.movimiento = movimiento;
     }
 
     public Date getFechaMovimiento() {

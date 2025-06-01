@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidoController {
@@ -29,6 +30,10 @@ public class PedidoController {
 
     @PostMapping
     public Pedido createPedido(@RequestBody Pedido pedido) {
+
+        if (pedido.getEstado() == null || pedido.getEstado().isEmpty()) {
+            pedido.setEstado("Pendiente");
+        }
         return pedidoService.save(pedido);
     }
 

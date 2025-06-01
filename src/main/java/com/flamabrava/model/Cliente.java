@@ -1,9 +1,14 @@
 package com.flamabrava.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESCLITBL")
 public class Cliente implements Serializable {
 
@@ -13,21 +18,31 @@ public class Cliente implements Serializable {
     private Integer id;
 
     @Column(name = "XCLINOM", length = 50, nullable = false)
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
     @Column(name = "XCLIAPL", length = 50, nullable = false)
+    @NotBlank(message = "El apellido es obligatorio")
     private String apellido;
 
+    @Column(name = "XCLIDNI", length = 8)
+    private String dni;
+
     @Column(name = "XCLIEML", length = 100, nullable = false, unique = true)
+    @NotBlank(message = "El correo electrónico es obligatorio")
     private String email;
 
-    @Column(name = "XCLITLF", length = 9)
+    @Column(name = "XCLITLF", length = 15)
     private String telefono;
 
-    @Column(name = "XCLIDIR", length = 150)
-    private String direccion;
+    @Column(name = "XCLIPSW", length = 30)
+    private String contrasena;
 
-    // Metodos Getter y Setter
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive = false;
+
+    @Column(name = "XCLIROL", length = 20)
+    private String rol = "Cliente";
 
     public Integer getId() {
         return id;
@@ -53,6 +68,14 @@ public class Cliente implements Serializable {
         this.apellido = apellido;
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -69,11 +92,27 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

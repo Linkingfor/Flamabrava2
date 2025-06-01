@@ -2,9 +2,11 @@ package com.flamabrava.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESUSRTBL")
 public class Usuario implements Serializable {
 
@@ -20,13 +22,7 @@ public class Usuario implements Serializable {
     private String password;
 
     @Column(name = "XUSRROL", length = 20)
-    private String rol;
-
-    @Column(name = "FUSRFECHA")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCreacion = new Date();
-
-    // Metodos Getter y Setter
+    private String rol = "Administrador";
 
     public Integer getId() {
         return id;
@@ -58,13 +54,5 @@ public class Usuario implements Serializable {
 
     public void setRol(String rol) {
         this.rol = rol;
-    }
-
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
     }
 }

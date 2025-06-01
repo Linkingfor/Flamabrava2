@@ -2,11 +2,14 @@ package com.flamabrava.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESPROTBL")
-public class Producto {
+public class Producto implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CPROID")
@@ -15,11 +18,8 @@ public class Producto {
     @Column(name = "XPRONOM", length = 100, nullable = false)
     private String nombre;
 
-    @Column(name = "XPRODSC")
-    private String descripcion;
-
-    @Column(name = "NPROPREC", precision = 10, scale = 2, nullable = false)
-    private BigDecimal precio;
+    @Column(name = "NPROPREC", nullable = false)
+    private Double precio;
 
     @Column(name = "NPROSTK", nullable = false)
     private Integer stock;
@@ -27,8 +27,6 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "CCATID")
     private Categoria categoria;
-
-    // Metodos Getter y Setter
 
     public Integer getId() {
         return id;
@@ -46,19 +44,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public BigDecimal getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

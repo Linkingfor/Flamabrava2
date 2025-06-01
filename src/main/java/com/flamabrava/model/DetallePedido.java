@@ -4,20 +4,24 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @Entity
+@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESDETTBL")
-public class DetallePedido {
+public class DetallePedido implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CDETID")
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "CPEDID")
+    @JoinColumn(name = "CPEDID", nullable = false)
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "CPROID")
+    @JoinColumn(name = "CPROID", nullable = false)
     private Producto producto;
 
     @Column(name = "NDETCNT", nullable = false)
@@ -25,8 +29,6 @@ public class DetallePedido {
 
     @Column(name = "NDETTOT", precision = 10, scale = 2, nullable = false)
     private BigDecimal total;
-
-    // Metodos Getter y Setter
 
     public Integer getId() {
         return id;
