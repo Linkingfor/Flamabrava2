@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,5 +31,10 @@ public class MesaService {
 
     public void deleteById(Integer id) {
         mesaRepository.deleteById(id);
+    }
+    public List<Mesa> findMesasDisponiblesExactas(LocalDateTime horaInicio,
+                                                  LocalDateTime horaFin,
+                                                  Integer numPersonas) {
+        return mesaRepository.findMesasDisponiblesExactas(horaInicio, horaFin, numPersonas);
     }
 }

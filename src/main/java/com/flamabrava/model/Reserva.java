@@ -1,7 +1,8 @@
 package com.flamabrava.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -12,58 +13,82 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CRESID")
-    private Integer id;
+    // <-- Ajustamos este nombre a "cresid" para que coincida con la tabla real
+    @Column(name = "cresid")
+    private Integer idReserva;
 
-    @Column(name = "CCLIID")
-    private Integer clienteId;
+    // <-- Asegúrate de que el nombre de columna ("ccllid") coincide con tu base de datos
+    @Column(name = "ccllid", nullable = false)
+    private Integer idUsuario;
 
+    // <-- El JoinColumn debe apuntar a "cmesid", que es la columna real en la BD
     @ManyToOne
-    @JoinColumn(name = "CMESID", nullable = false)
+    @JoinColumn(name = "cmesid", nullable = false)
     private Mesa mesa;
 
-    @Column(name = "FRESFECHA", nullable = false)
-    private Date fecha;
+    // <-- La columna real en tu BD se llama "fresfecha"
+    @Column(name = "fresfecha", nullable = false)
+    private LocalDateTime fecha;
 
-    @Column(name = "XRESOBS", length = 400)
+    // <-- Coincide: "num_personas" en tu tabla
+    @Column(name = "num_personas", nullable = false)
+    private Integer numPersonas;
+
+    // <-- Si tu tabla actual no tiene estado, puedes omitirlo; si la tuvieras, ajústalo:
+    @Column(name = "estado", length = 20)
+    private String estado;
+
+    // <-- La columna real se llama "xresobs"
+    @Column(name = "xresobs", length = 400)
     private String observaciones;
 
-    public Integer getId() {
-        return id;
+    // ─── Getters / Setters ───
+
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
-
-    public Integer getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Mesa getMesa() {
         return mesa;
     }
-
     public void setMesa(Mesa mesa) {
         this.mesa = mesa;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
-
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public Integer getNumPersonas() {
+        return numPersonas;
+    }
+    public void setNumPersonas(Integer numPersonas) {
+        this.numPersonas = numPersonas;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getObservaciones() {
         return observaciones;
     }
-
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
