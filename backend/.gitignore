@@ -1,0 +1,13 @@
+# Archivos de compilación
+target/
+build/
+*.jar
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Archivos de configuración del IDE
+.idea/
+*.iml
+.vscode/

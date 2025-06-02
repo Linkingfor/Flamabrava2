@@ -1,0 +1,227 @@
+.reserva-page {
+    background-image: url('../images/Fondo2.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.reserva-container {
+    max-width: 600px;
+    margin: 5% auto; 
+    padding: 2rem;
+    background-color: rgba(248, 249, 250, 0.7); 
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reserva-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .reserva-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .reserva-form .form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-group textarea {
+    height: 100px;
+  }
+  
+  .select-mesa-btn,
+  .submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .select-mesa-btn:hover,
+  .submit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  
+  .custom-modal .modal-dialog {
+    max-width: 800px;
+  }
+  
+  .mesas-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .mesa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    background-color: #f8f9fa;
+  }
+  
+  .mesa.selected {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .mesa.circular {
+    border-radius: 50%;
+  }
+  
+  
+  .mapa-mesas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 60px; 
+    padding: 20px;
+    justify-items: center;
+  }
+  
+  .mesa:hover {
+    transform: scale(1.05);
+    border-color: #28a745;
+  }
+  
+  
+  .mesa-rectangular {
+    width: 140px;
+    height: 80px;
+    border: 2px solid #6c757d;
+    border-radius: 10px;
+  }
+  
+  
+  .container-mesa {
+    position: relative;
+  }
+  
+  
+  .mesa-circular {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #6c757d;
+  }
+  
+  
+  .mesa .asiento {
+    width: 20px;
+    height: 20px;
+    background-color: #6c757d;
+    border-radius: 50%;
+    position: absolute;
+  }
+  
+  
+  .mesa-rectangular .top-left {
+    top: -25px;
+    left: 25%;
+  }
+  
+  .mesa-rectangular .top-right {
+    top: -25px;
+    right: 25%;
+  }
+  
+  .mesa-rectangular .left {
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .mesa-rectangular .right {
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .mesa-rectangular .bottom-left {
+    bottom: -25px;
+    left: 25%;
+  }
+  
+  .mesa-rectangular .bottom-right {
+    bottom: -25px;
+    right: 25%;
+  }
+  
+  
+  .mesa-circular .asiento-1 {
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .mesa-circular .asiento-2 {
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .mesa-circular .asiento-3 {
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .mesa-circular .asiento-4 {
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  
+  @media (max-width: 600px) {
+    .reserva-container {
+      padding: 10px;
+    }
+  
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-size: 14px;
+    }
+  
+    .mesa {
+      width: 50px;
+      height: 50px;
+    }
+  }  

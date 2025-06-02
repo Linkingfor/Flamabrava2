@@ -1,0 +1,136 @@
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.navbar {
+  background-color: #C0392B;
+}
+
+.custom-navbar {
+  padding: 0 30px; 
+  background-color: #C0392B; 
+}
+
+.header .navbar-nav {
+  display: flex;
+}
+.navbar-logo {
+  margin-left: 20px; 
+}
+
+.navbar-logo img {
+  transition: transform 0.3s ease; 
+}
+
+.navbar-logo img:hover {
+  transform: scale(1.1); 
+}
+
+
+.navbar-links {
+  margin-right: 30px; 
+  justify-content: center;
+}
+
+
+.navbar-links .nav-text {
+  font-size: 18px; 
+  color: #ddd; 
+  font-weight: bold; 
+  transition: color 0.3s ease; 
+}
+
+.navbar-links .nav-text:hover {
+  color: #fff; 
+}
+
+
+.carousel-container {
+  max-height: 500px; 
+  overflow: hidden; 
+}
+
+.carousel-image {
+  width: 100%;
+  height: 500px; 
+  object-fit: cover; 
+}
+
+.carousel-item img {
+  height: 70vh; 
+  object-fit: cover;
+}
+
+
+.card {
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05); 
+}
+
+
+.card-image {
+  height: 300px; 
+  width: 100%; 
+  object-fit: cover; 
+}
+
+
+footer {
+  background-color: #C0392B;
+  color: white;
+}
+
+
+.ubicacion-section {
+  margin: 40px auto;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd; 
+  border-radius: 10px;
+  background-color: #f5f5f5; 
+}
+
+.ubicacion-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #C0392B; 
+}
+
+.ubicacion-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ubicacion-image {
+  width: 80%;
+  max-width: 400px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.ubicacion-info {
+  margin-top: 15px;
+  color: #555; 
+}
+
+.ubicacion-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #C0392B;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.ubicacion-link:hover {
+  background-color: #A93226;
+}
