@@ -2,15 +2,18 @@ package com.flamabrava.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-
 import java.io.Serializable;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESCLITBL")
 public class Cliente implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +47,19 @@ public class Cliente implements Serializable {
     @Column(name = "XCLIROL", length = 20)
     private String rol = "Cliente";
 
+    /**
+     * Constructor vacío requerido por JPA
+     */
+    public Cliente() {}
+
+    /**
+     * Constructor de conveniencia para referenciar por ID
+     */
+    public Cliente(Integer id) {
+        this.id = id;
+    }
+
+    // — Getters y setters —
     public Integer getId() {
         return id;
     }

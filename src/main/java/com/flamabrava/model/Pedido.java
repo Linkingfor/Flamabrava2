@@ -1,24 +1,27 @@
 package com.flamabrava.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-
 @Entity
-@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESPEDTBL")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Pedido implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CPEDID")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CCLIID", nullable = false)
     private Cliente cliente;
 
@@ -29,12 +32,34 @@ public class Pedido implements Serializable {
     @Column(name = "XPEDSTA", length = 20, nullable = false)
     private String estado = "Pendiente";
 
-    @Column(name = "NPEDTOT")
-    private BigDecimal total;
+    @Column(name = "NPEDTOT", precision = 10, scale = 2)
+    private BigDecimal total = BigDecimal.ZERO;
 
-    @ManyToMany
-    @JoinTable(name = "PEDIDO_PRODUCTO", joinColumns = @JoinColumn(name = "PEDIDO_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCTO_ID"))
-    private List<Producto> productos;
+    /**
+     * Campo para almacenar texto con el detalle: "2× Pollo a la brasa, 1× Papas fritas"
+     */
+    @Column(name = "detalles", length = 500)
+    private String detalles;
+
+    @OneToMany(
+        mappedBy = "pedido",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<DetallePedido> detalle = new ArrayList<>();
+
+    public Pedido() {
+        // JPA necesita el constructor por defecto
+    }
+
+    @Transient
+    public Date getFecha() {
+        return this.fechaPedido;
+    }
+
+    // — Getters y setters —
 
     public Integer getId() {
         return id;
@@ -76,11 +101,30 @@ public class Pedido implements Serializable {
         this.total = total;
     }
 
-    public List<Producto> getProductos() {
-        return productos;
+    public String getDetalles() {
+        return detalles;
     }
 
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
+    public void setDetalles(String detalles) {
+        this.detalles = detalles;
+    }
+
+    public List<DetallePedido> getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(List<DetallePedido> detalle) {
+        this.detalle = detalle;
+    }
+
+    /**
+     * Recalcula el total a partir de las líneas:
+     * total = Σ( cantidad × precioUnitario ).
+     */
+    public void calcularTotal() {
+        this.total = detalle.stream()
+            .map(d -> d.getPrecioUnitario()
+                       .multiply(BigDecimal.valueOf(d.getCantidad())))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

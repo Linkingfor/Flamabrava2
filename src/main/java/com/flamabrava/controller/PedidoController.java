@@ -7,51 +7,78 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @RestController
 @RequestMapping("/api/pedidos")
+@CrossOrigin(origins = {
+    "http://localhost:3000",
+    "https://polleriaflamabrava.netlify.app"
+})
 public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
 
+    /**
+     * GET /api/pedidos
+     * Devuelve todos los pedidos con su detalle.
+     */
     @GetMapping
-    public List<Pedido> getAllPedidos() {
-        return pedidoService.findAll();
+    public ResponseEntity<List<Map<String, ?>>> getAllPedidos() {
+        List<Pedido> pedidos = pedidoService.findAll();
+        List<Map<String, ?>> result = pedidos.stream()
+            .map(p -> Map.<String, Object>of(
+                "id",           p.getId(),
+                "clienteId",    p.getCliente().getId(),
+                "fechaPedido",  p.getFechaPedido(),
+                "estado",       p.getEstado(),
+                "total",        p.getTotal(),
+                "detallesText", p.getDetalles()
+            ))
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(result);
     }
 
+    /**
+     * GET /api/pedidos/{id}
+     * Devuelve un pedido con su resumen textual y line items.
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> getPedidoById(@PathVariable Integer id) {
-        Optional<Pedido> pedido = pedidoService.findById(id);
-        return pedido.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Pedido createPedido(@RequestBody Pedido pedido) {
-
-        if (pedido.getEstado() == null || pedido.getEstado().isEmpty()) {
-            pedido.setEstado("Pendiente");
-        }
-        return pedidoService.save(pedido);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Pedido> updatePedido(@PathVariable Integer id, @RequestBody Pedido pedidoDetails) {
-        Optional<Pedido> pedido = pedidoService.findById(id);
-        if (pedido.isPresent()) {
-            Pedido pedidoToUpdate = pedido.get();
-            pedidoToUpdate.setCliente(pedidoDetails.getCliente());
-            pedidoToUpdate.setFechaPedido(pedidoDetails.getFechaPedido());
-            pedidoToUpdate.setEstado(pedidoDetails.getEstado());
-            pedidoToUpdate.setTotal(pedidoDetails.getTotal());
-            return ResponseEntity.ok(pedidoService.save(pedidoToUpdate));
-        } else {
+    public ResponseEntity<Map<String, ?>> getPedidoById(@PathVariable Integer id) {
+        Optional<Pedido> opt = pedidoService.findByIdWithDetalle(id);
+        if (opt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        Pedido p = opt.get();
+
+        Map<String, ?> respuesta = Map.<String, Object>of(
+            "id",           p.getId(),
+            "clienteId",    p.getCliente().getId(),
+            "fechaPedido",  p.getFechaPedido(),
+            "estado",       p.getEstado(),
+            "total",        p.getTotal(),
+            "detallesText", p.getDetalles(),
+            "lineItems",    p.getDetalle().stream()
+                .map(d -> Map.<String, Object>of(
+                    "productoId",     d.getProducto().getId(),
+                    "nombre",         d.getProducto().getNombre(),
+                    "cantidad",       d.getCantidad(),
+                    "precioUnitario", d.getProducto().getPrecio(),
+                    "totalLinea",     d.getTotal()
+                ))
+                .collect(Collectors.toList())
+        );
+
+        return ResponseEntity.ok(respuesta);
     }
 
+    /**
+     * DELETE /api/pedidos/{id}
+     * Elimina un pedido y su detalle.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePedido(@PathVariable Integer id) {
         pedidoService.deleteById(id);

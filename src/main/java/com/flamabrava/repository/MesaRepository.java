@@ -18,26 +18,27 @@ public interface MesaRepository extends JpaRepository<Mesa, Integer> {
 
     /**
      * Devuelve todas las mesas que:
-     *   - tienen capacidad >= :numPersonas
-     *   - y no están reservadas (estado != 'cancelada') en el intervalo [horaInicio, horaFin)
+     *  - tienen capacidad = :numPersonas
+     *  - y cuyo id NO está en la subconsulta de mesas reservadas
+     *    en el intervalo [horaInicio, horaFin)
      *
-     *   hórario “en punto” significa minutos=0, segundos=0.
+     * horario “en punto” significa minutos=0, segundos=0
      */
     @Query(
       "SELECT m " +
       "FROM Mesa m " +
-      "WHERE m.capacidad >= :numPersonas " +
+      "WHERE m.capacidad = :numPersonas " +
       "  AND m.id NOT IN ( " +
-      "      SELECT r.mesa.id " +
-      "      FROM Reserva r " +
-      "      WHERE r.fecha >= :horaInicio " +
-      "        AND r.fecha < :horaFin " +
-      "        AND r.estado <> 'cancelada' " +
+      "    SELECT r.mesa.id " +
+      "    FROM Reserva r " +
+      "    WHERE r.fecha >= :horaInicio " +
+      "      AND r.fecha <  :horaFin " +
+      "      AND r.estado <> 'cancelada'" +
       "  )"
     )
- List<Mesa> findMesasDisponiblesExactas(
-        @Param("horaInicio") LocalDateTime horaInicio,
-        @Param("horaFin")    LocalDateTime horaFin,
-        @Param("numPersonas") Integer numPersonas
+    List<Mesa> findMesasDisponiblesExactas(
+      @Param("horaInicio")  LocalDateTime horaInicio,
+      @Param("horaFin")     LocalDateTime horaFin,
+      @Param("numPersonas") Integer      numPersonas
     );
 }

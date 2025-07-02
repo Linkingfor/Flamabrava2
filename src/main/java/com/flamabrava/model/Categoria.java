@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESCATBL")

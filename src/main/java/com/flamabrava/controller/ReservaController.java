@@ -8,6 +8,7 @@ import com.flamabrava.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.Transient;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -86,10 +87,6 @@ public class ReservaController {
         }
         Mesa mesaEncontrada = mesaOpt.get();
 
-        // 3) Verificamos que la mesa esté libre ("Libre")
-        if (!"Libre".equalsIgnoreCase(mesaEncontrada.getEstado())) {
-            throw new IllegalArgumentException("La mesa seleccionada no está disponible para la reserva");
-        }
 
         // 4) Asignamos estado inicial si viene nulo
         if (reserva.getEstado() == null) {
@@ -103,10 +100,6 @@ public class ReservaController {
 
         // 6) Guardamos la reserva en BD
         Reserva reservaGuardada = reservaRepository.save(reserva);
-
-        // 7) Marcamos la mesa como "Ocupado" y la guardamos
-        mesaEncontrada.setEstado("Ocupado");
-        mesaService.save(mesaEncontrada);
 
         // 8) Redondeamos la fecha a “hora en punto” (minuto=0, segundo=0)
         LocalDateTime horaOriginal = reservaGuardada.getFecha();

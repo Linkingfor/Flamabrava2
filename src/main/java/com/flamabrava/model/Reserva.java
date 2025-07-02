@@ -1,48 +1,45 @@
 package com.flamabrava.model;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESRESTBL")
-public class Reserva {
+public class Reserva implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // <-- Ajustamos este nombre a "cresid" para que coincida con la tabla real
     @Column(name = "cresid")
     private Integer idReserva;
 
-    // <-- Asegúrate de que el nombre de columna ("ccllid") coincide con tu base de datos
-    @Column(name = "ccllid", nullable = false)
-    private Integer idUsuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ccllid", nullable = false)
+    private Cliente cliente;
 
-    // <-- El JoinColumn debe apuntar a "cmesid", que es la columna real en la BD
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cmesid", nullable = false)
     private Mesa mesa;
 
-    // <-- La columna real en tu BD se llama "fresfecha"
     @Column(name = "fresfecha", nullable = false)
     private LocalDateTime fecha;
 
-    // <-- Coincide: "num_personas" en tu tabla
     @Column(name = "num_personas", nullable = false)
     private Integer numPersonas;
 
-    // <-- Si tu tabla actual no tiene estado, puedes omitirlo; si la tuvieras, ajústalo:
     @Column(name = "estado", length = 20)
     private String estado;
 
-    // <-- La columna real se llama "xresobs"
     @Column(name = "xresobs", length = 400)
     private String observaciones;
 
-    // ─── Getters / Setters ───
+    // ─── Getters y Setters ───
 
     public Integer getIdReserva() {
         return idReserva;
@@ -51,11 +48,11 @@ public class Reserva {
         this.idReserva = idReserva;
     }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public Cliente getCliente() {
+        return cliente;
     }
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Mesa getMesa() {
@@ -91,5 +88,24 @@ public class Reserva {
     }
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    // ─── Conveniencias para el ReporteService ───
+
+    /** Para que tu ReporteService pueda usar r.getId() */
+    @Transient
+    public Integer getId() {
+        return this.idReserva;
+    }
+     @Transient
+    public Integer getIdUsuario() {
+        return (cliente != null) ? cliente.getId() : null;
+    }
+     @Transient
+    public void setIdUsuario(Integer idUsuario) {
+        if (this.cliente == null) {
+            this.cliente = new Cliente();
+        }
+        this.cliente.setId(idUsuario);
     }
 }

@@ -2,9 +2,9 @@ package com.flamabrava.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @Table(name = "GESUSRTBL")

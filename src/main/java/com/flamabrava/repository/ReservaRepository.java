@@ -30,4 +30,4 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
         @Param("horaInicio") LocalDateTime horaInicio,
         @Param("horaFin")    LocalDateTime horaFin
     );
-}
+}       
