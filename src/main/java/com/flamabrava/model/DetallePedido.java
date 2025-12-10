@@ -24,7 +24,7 @@ public class DetallePedido implements Serializable {
     @Column(name = "CDETID")
     private Integer id;
 
-    @@ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CPEDID", nullable = false)
     @JsonBackReference
     private Pedido pedido;
