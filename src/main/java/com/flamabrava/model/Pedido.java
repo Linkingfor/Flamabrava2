@@ -21,7 +21,7 @@ public class Pedido implements Serializable {
     @Column(name = "CPEDID")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CCLIID", nullable = false)
     private Cliente cliente;
 
@@ -46,7 +46,7 @@ public class Pedido implements Serializable {
 
     @OneToMany(
         mappedBy = "pedido",
-        fetch = FetchType.LAZY,
+        fetch = FetchType.EAGER,
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
