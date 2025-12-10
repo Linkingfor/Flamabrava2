@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional; // <-- Asegúrate de usar esta importación
 
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @RestController
+@Transactional
 @RequestMapping("/api/productos")
 public class ProductoController {
 
@@ -83,9 +85,5 @@ public class ProductoController {
         }
     }
 
-    @GetMapping("/api/productos")
-    public List<Producto> getProductos() {
-        return productoService.findAll();
-    }
-
+    // <-- Eliminé el método duplicado que tenía @GetMapping("/api/productos")
 }
