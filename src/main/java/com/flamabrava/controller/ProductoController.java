@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "https://polleriaflamabrava.netlify.app")
 @RestController
+@Transactional
 @RequestMapping("/api/productos")
 public class ProductoController {
 
