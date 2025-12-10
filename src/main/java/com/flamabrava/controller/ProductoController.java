@@ -26,15 +26,35 @@ public class ProductoController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public List<Producto> getAllProductos() {
-        return productoService.findAll();
-    }
+public List<Producto> getAllProductos() {
+    List<Producto> productos = productoService.findAll();
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Producto> getProductoById(@PathVariable Integer id) {
-        Optional<Producto> producto = productoService.findById(id);
-        return producto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    // Inicializa la categoría antes de devolver el JSON
+    productos.forEach(p -> {
+        if (p.getCategoria() != null) {
+            p.getCategoria().getNombre(); // <-- fuerza carga LAZY
+        }
+    });
+
+    return productos;
+}
+
+
+  @GetMapping("/{id}")
+public ResponseEntity<Producto> getProductoById(@PathVariable Integer id) {
+    Optional<Producto> producto = productoService.findById(id);
+
+    if (producto.isPresent()) {
+        // fuerza inicialización de categoria
+        if (producto.get().getCategoria() != null) {
+            producto.get().getCategoria().getNombre();
+        }
+        return ResponseEntity.ok(producto.get());
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+}
+
 
     @PostMapping
     public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
