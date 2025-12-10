@@ -24,12 +24,12 @@ public class DetallePedido implements Serializable {
     @Column(name = "CDETID")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CPEDID", nullable = false)
     @JsonBackReference
     private Pedido pedido;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CPROID", nullable = false)
     private Producto producto;
 
