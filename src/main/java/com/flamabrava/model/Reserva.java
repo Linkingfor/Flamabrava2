@@ -26,7 +26,7 @@ public class Reserva {
     @Column(name = "ccllid", nullable = false)
     private Integer idUsuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cmesid", nullable = false)
     private Mesa mesa;
 
