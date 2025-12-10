@@ -30,7 +30,7 @@ public class Producto implements Serializable {
     @Column(name = "NPROSTK", nullable = false)
     private Integer stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CCATID")
     private Categoria categoria;
 
